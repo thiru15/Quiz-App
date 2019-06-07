@@ -1,0 +1,44 @@
+ 
+ {% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<nav class="navbar navbar-expand-sm bg-light navbar-primary">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">MCQ</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">TESTS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Placement</a>
+      </li>
+      
+    </ul>
+  </nav>
+
+<div style="margin-top: 50px;">
+{% if latest_question_list %}
+    <ol>
+    {% for question in latest_question_list %}
+</li><link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+    {% csrf_token %}
+    {% for choice in question.choice_set.all %}
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+    {% endfor %}
+    <input type="submit" value="Vote">
+    </form>
+
+    {% endfor %}
+    </ol>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+</div>
+{% endblock %}
