@@ -1,22 +1,25 @@
- 
+
 
 {% block content %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <div style="margin-top: 50px;">
-<h1>{{ question.question_text }}</h1>
-{% if question.correct %}
-    <h3 style="color: green">Correct Answer</h3>
-{% else %}
-     <h3 style="color: red">{{ question.correct}}    Wrong Answer</h3>
-{% endif %}
+  <h1>{{ question.question_text }}</h1>
 
+{% if fl %}
+
+<h1>{{ question.question_text }}</h1>
 <ul>
 {% for choice in question.choice_set.all %}
-    <li>{{ choice.choice_text }} -- {{ choice.answer }} vote{{ choice.votes|pluralize }}{{choice.votes}}</li>
+    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
 {% endfor %}
 </ul>
+    <h3 style="color: green">   {{ sc }}    Correct Answer</h3>
+{% else %}
+     <h3 style="color: red">Wrong Answer</h3>
+{% endif %}
 
-<a href="{% url 'polls:detail' question.id %}">Vote again?</a>
+
+
 </div>
 {% endblock %}

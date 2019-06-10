@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib import admin
 
-from .models import Choice, Question
+from .models import Choice, Question,Correct
 
 
 class ChoiceInline(admin.StackedInline):
@@ -13,3 +13,4 @@ class ChoiceInline(admin.StackedInline):
 admin.site.register(Question)
 
 admin.site.register(Choice)
+admin.site.register(Correct)
