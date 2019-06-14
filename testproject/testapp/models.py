@@ -1,15 +1,20 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
-# Create your models here.
-class Users(models.Model):
-    user = models.CharField(max_length=100,primary_key=True)
-    email=models.CharField(max_length=100)
-    #password = models.CharField(max_length=100)
+ 
+
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     scores = models.IntegerField(default=0)
 
     def __str__(self):
-        return(str(user)+" "+str(self.scores))
-
+        return(str(self.user)+" has scored "+str(self.scores)+" marks")
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
@@ -17,7 +22,6 @@ class Question(models.Model):
 
     def __str__(self):
         return str(self.question_text)+"   "+str(self.correct)
-
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)

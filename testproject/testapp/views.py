@@ -25,7 +25,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
-from .models import Choice, Question,Users
+from .models import Choice, Question,Profile
 
 sum=0 ;
 l=[]
@@ -121,7 +121,6 @@ def activate(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid!')'''
 
-
 def user_login(request):
            if request.method == 'POST':
                 username = request.POST.get('username')
@@ -129,6 +128,7 @@ def user_login(request):
                 user = authenticate(username=username, password=password)
                 if user:
                     if user.is_active:
+
                           login(request,user)
                           return render(request,'index.html')
                     else:
@@ -141,18 +141,26 @@ def user_login(request):
                  return render(request, 'login.html', {})
 
 
-def finish(request):
+def finish(request,user_id):
+
+    #Profile.user=use.username
+    #Profile.save()
     global sum
     sc=sum
+    #return HttpResponse(Profile.objects.all())
+    c = User.objects.get(pk=user_id)
+    pr = Profile()
+    pr.user=c
+    pr.scores=sum
+    pr.save()
+
+
     '''for use in User.objects.all():
         use.scores+=sum
         use.scores.save()
         break'''
-    use=Users()
-    use.scores+=sum
-    a=User()
-    use.user=a.username
-    use.save()
+
+
 
 
     return render(request, "finish.html",context={"sc":sc})
@@ -162,6 +170,8 @@ def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
 
     selected_choice = question.choice_set.get(pk=request.POST['choice'])
+
+
 
 
     try:

@@ -3,9 +3,66 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://use.fontawesome.com/54b5365f0e.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+
+  <style type="text/css">
+
+  .fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 64px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 70%;
+  }
+
+
+  /* Add a hover effect if you want */
+  .fa:hover {
+  opacity: 0.7;
+  }
+
+  /* Set a specific color for each brand */
+
+  /* Facebook */
+  .fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+
+  /* Twitter */
+  .fa-twitter {
+  background: #55ACEE;
+  color: white;
+  }
+
+  .fa-linkedin{
+    background: #0066ff;
+    color: white;
+  }
+
+
+  </style>
+
   </head>
+
+
+
+
+
   <body>
+    <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3&appId=447635729356838&autoLogAppEvents=1"></script>
+
+
     <h1 style="color:green">
 <div class="jumbotron">
       Your score is {{ sc }} marks</h1>
@@ -14,11 +71,21 @@
       </div>
       <div class="container">
         <h1> Share your results</h1>
-      <button class="btn btn-primary">    <a class="twitter-share-button"
-      href="https://twitter.com/intent/tweet?text=youscored{{sc}}marks"
-      data-size="large" style="color:white;">
-    Tweet</a></button>
+      <a class="twitter-share-button fa fa-twitter"
+      href="https://twitter.com/intent/tweet?text=Ihavescored{{sc}}marks"
+      data-size="large">
+    </a>
+    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Fthirumalai.srinivasan.148&amp;src=sdkpreparse" class="fa fa-facebook fb-xfbml-parse-ignore"></a>
+   
+    <a href="https://platform.linkedin.com/in.js" class="fa fa-linkedin"><script type="IN/Share" data-url="https://www.linkedin.com/in/thirumalai-s-13a824148/"></script></a>
+
   </div>
+
 
   </body>
 </html>
+
+<!-- Add icon library  <a href="#" class="fa fa-twitter"></a>-->
+
+
+<!-- Add font awesome icons -->
