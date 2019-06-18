@@ -1,7 +1,25 @@
- {% extends "base.html" %}
- {% load static %}
+{% load static %}
 
 {% block body_block %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<body>
+<nav class="navbar navbar-default navbar-static-top-primary" style="color:blue">
+  <div class="container">
+    <ul class="nav navbar-nav">
+      <li><a class="navbar-brand" href="
+      C:\Users\user\Desktop\django2\testproject\testapp\templates\index.html">DJANGO</a></li>
+      <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
+      <li><a class="navbar-link" href="{% url 'testapp:register' %}">Register</a></li>
+      {# Some logic on what to display for last item#}
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'testapp:user_logout' %}">Logout</a></li>
+      {% else %}
+        <li><a class="navbar-link" href="{% url 'testapp:user_login' %}">Login</a></li>
+      {% endif %}
+</ul>
+  </div>
+</nav>
 
     {% if user.is_authenticated %}
 
@@ -12,12 +30,15 @@
 
 <div style="margin-top: 50px;">
 <style>
-p {
+#demo {
 text-align: right;
 font-size: 20px;
 padding-left:"60px";
 background-color:#f2f2f2
 
+}
+body{
+  font-size:22px;
 }
 </style>
 <body>
@@ -44,7 +65,7 @@ if (t < 0) {
     clearInterval(x);
     document.getElementById("demo").innerHTML="EXPIRED";
     flag=1
-    window.location.replace("{% url 'testapp:finish' %}");
+    window.location.replace("{% url 'testapp:finish' user.id %}");
 }
 }, 1000);
 </script>
@@ -68,14 +89,14 @@ if (t < 0) {
 </<div>
 
 <p>you can answer only once<p>
-<input type="submit" value="Answer"  <style ="color:blue">
+<input type="submit" value="Answer" class="btn btn-success">
 </form>
 
 {% endfor %}
 
 <h3>Check whether you have attended all the questions and then finish the test</h3>
 
-<button type="button" class="btn btn-primary"><a href="{% url 'testapp:finish' %}" style="color:white">Finish</a></button>
+<button type="button" class="btn btn-primary"><a href="{% url 'testapp:finish' user.id %}" style="color:white">Finish</a></button>
 </ol>
 
 </div>
@@ -83,6 +104,21 @@ if (t < 0) {
 
 {% else %}
         <h2>Register or Login if you'd like to</h2>
+
+        <h3>LeaderBoard</h3>
+
+        {% for pro in Profile.objects.all %}
+        <p> {{ pro.user }} has scored {{ pro.scores }}
+          {% endfor %}
+
+
+
+
+
+
+
+
+
     {% endif %}
   </div>
 </div>

@@ -1,7 +1,14 @@
 from django.contrib import admin
-from .models import Users,Question,Choice
+from django.contrib.auth.models import User
+from .models import Profile,Question,Choice
+from import_export.admin import ImportExportModelAdmin
 
-# Register your models here.
-admin.site.register(Users)
-admin.site.register(Question)
-admin.site.register(Choice)
+class ViewAdmin(ImportExportModelAdmin):
+    pass
+
+admin.site.register(Question, ViewAdmin)
+
+# Register your models here
+admin.site.register(Profile,ViewAdmin)
+
+admin.site.register(Choice,ViewAdmin)
