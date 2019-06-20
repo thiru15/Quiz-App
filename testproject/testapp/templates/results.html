@@ -2,21 +2,9 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <div style="margin-top: 50px;">
-  <h1>{{ question.question_text }}</h1>
-
-{% if fl %}
-
-<h1>{{ question.question_text }}</h1>
-<ul>
-{% for choice in question.choice_set.all %}
-    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
-{% endfor %}
-</ul>
-    <h3 style="color: green">   {{ sc }}    Correct Answer</h3>
-{% else %}
-     <h3 style="color: green">Thanks For Answering</h3>
-{% endif %}
-
+    {{ sc }}
+    <h3 style="color: green">Thanks For Answering</h3>
+ 
 
 
 </div>

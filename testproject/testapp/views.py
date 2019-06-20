@@ -1,7 +1,5 @@
 from django.shortcuts import render
-
-
-# Create your views here.
+from django.shortcuts import render
 from django.shortcuts import render,redirect
 from testapp.forms import UserForm
 from django.contrib.auth import authenticate, login, logout
@@ -24,29 +22,18 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
+from testapp.models import Quiz1,Profile,Choice,Quiz2,Choice2,Profile1,Profile2
+l=[];sum1=0;sum2=0;sum=0;l1=[]
+count=0
+count1=0
 
-from .models import Choice, Question,Profile
-
-sum=0 ;
-l=[];l1=[]
-class IndexView(generic.ListView):
-    model=Question
-
-    template_name = 'index.html'
-    context_object_name = 'latest_question_list'
-    def get_queryset(self):
-            """Return the last five published questions."""
-            return Question.objects.order_by('-pub_date')[::-1]
-
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'results.html'
+# Create your views here.
+def index(request):
+    return render(request,'index.html')
+def home(request):
+   return render(request,'home.html')
 
 
-
-@login_required
-def special(request):
-    return HttpResponse("You are logged in !")
 @login_required
 def user_logout(request):
     logout(request)
@@ -103,24 +90,6 @@ def activate(request, uidb64, token):
                   # return redirect('home')
          return render(request,'login.html',{'user_login':user_login})
 
-                #return HttpResponse('Activation link is invalid!')
-
-
-'''def activate(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        login(request, user)
-        # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
-    else:
-        return HttpResponse('Activation link is invalid!')'''
-
 def user_login(request):
            if request.method == 'POST':
                 username = request.POST.get('username')
@@ -130,7 +99,7 @@ def user_login(request):
                     if user.is_active:
 
                           login(request,user)
-                          return render(request,'index.html')
+                          return render(request,'home.html')
                     else:
                           return HttpResponse("Your account was inactive.")
                 else:
@@ -139,23 +108,77 @@ def user_login(request):
                     return HttpResponse("Invalid login details given")
            else:
                  return render(request, 'login.html', {})
+def finish1(request,user_id):
+
+    #Profile.user=use.username
+    #Profile.save()
+    global sum1
+    
+    sc=sum1
+    #return HttpResponse(Profile.objects.all())
+    c = User.objects.get(pk=user_id)
+    
+    pr=Profile1()
+    pr.user=c
+    pr.scores=sum1
+
+    global count
+    if count==0:
+         pr.save()
+         count+=1
 
 
+    pro=Profile2.objects.all()
+
+
+    '''for use in User.objects.all():
+        use.scores+=sum
+        use.scores.save()
+        break'''
+    return render(request, "finish1.html",context={"sc":sc,"pro":pro})
+
+def finish2(request,user_id):
+
+    #Profile.user=use.username
+    #Profile.save()
+    
+    #return HttpResponse(Profile.objects.all())
+    c = User.objects.get(pk=user_id)
+    pr = Profile2()
+    global sum2
+    pr.user=c
+    pr.scores=sum2
+    sc=sum2
+    global count1
+    if count1==0:
+         pr.save()
+         count1+=1
+
+
+    pro=Profile2.objects.all()
+
+
+    '''for use in User.objects.all():
+        use.scores+=sum
+        use.scores.save()
+        break'''
+    return render(request, "finish2.html",context={"sc":sc,"pro":pro})
 def finish(request,user_id):
 
     #Profile.user=use.username
     #Profile.save()
-    global sum
+    
+   
+    pre=Profile2.objects.all()
+    b=int()
+    sum=sum2+sum1
     sc=sum
     #return HttpResponse(Profile.objects.all())
     c = User.objects.get(pk=user_id)
     pr = Profile()
     pr.user=c
     pr.scores=sum
-    global l1
-    if user_id not in l1:
-           pr.save()
-           l1.append(user_id)
+    pr.save()
     pro=Profile.objects.all()
 
 
@@ -163,56 +186,87 @@ def finish(request,user_id):
         use.scores+=sum
         use.scores.save()
         break'''
-
-
-
-
     return render(request, "finish.html",context={"sc":sc,"pro":pro})
 
-def vote(request, question_id):
+@login_required
+def quiz1(request):
+    latest_question_list = Quiz1.objects.all()
+    return render(request,'quiz1.html',context={"latest_question_list":latest_question_list})
 
-    question = get_object_or_404(Question, pk=question_id)
 
+@login_required
+def quiz2(request):
+    latest_question_list = Quiz2.objects.all()
+    return render(request,'quiz2.html',context={"latest_question_list":latest_question_list})
+
+
+def vote1(request, question_id):
+    question = get_object_or_404(Quiz1, pk=question_id)
+    #return HttpResponse(question.correct)
+    #choice=Choice1.objects.all()            
     selected_choice = question.choice_set.get(pk=request.POST['choice'])
-
-
-
-
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
+        #choice=request.POST.get('a')
+        #a=1
+    except (KeyError, Quiz1.DoesNotExist):
         # Redisplay the question voting form.
         return render(request, 'index.html', {
             'question': question,
             'error_message': "You didn't select a choice.",
         })
     else:
-            global l
-            s=question.id
-            quest=Question()
-            for que in Question.objects.all():
-                if que.id==s:
-                    correct=que.correct
-                    break
-            #return HttpResponse(correct)
+        s=question.correct
+        #return HttpResponse(selected_choice.choice_text)
+        #return HttpResponse(l)
+        global sum1
+        if question not in l:
+                if str(selected_choice.choice_text)==str(s):
+                   fl=True
+                    
+                   sum1+=1
+                   l.append(question)
 
-
-        #return HttpResponse(question.correct)
-            if question not in l:
-
-              if str(selected_choice.choice_text)==str(correct):
-                  selected_choice.votes += 1
-                  selected_choice.save()
-
-                  fl=True
-                  global sum
-                  sum+=1
-                  l.append(question)
-
-            sc=sum
+        sc=sum1
             #return HttpResponse("Thank You")
             #return render(request,'polls/results.html',context={"fl":"fl" , "selected_choice":"selected_choice"})
             #finish(request,sc)
-            return render(request,'results.html',context={"sc":sc})
+        #return render(request,'quiz1.html',context={"choices":choices})
+        return render(request,'results.html',context={"sc":sc})
 
-# Create your views here.
+def vote2(request, question_id):
+    question = get_object_or_404(Quiz2, pk=question_id)
+    #return HttpResponse(question.correct)
+    #choice=Choice1.objects.all()            
+    selected_choice = question.choice2_set.get(pk=request.POST['choice'])
+    try:
+        selected_choice = question.choice2_set.get(pk=request.POST['choice'])
+        #choice=request.POST.get('a')
+        #a=1
+    except (KeyError, Quiz2.DoesNotExist):
+        # Redisplay the question voting form.
+        return render(request, 'index.html', {
+            'question': question,
+            'error_message': "You didn't select a choice.",
+        })
+    else:
+        s=question.correct
+        #return HttpResponse(selected_choice.choice_text)
+        #return HttpResponse(l)
+        global sum2
+        if question not in l:
+                if str(selected_choice.choice_text)==str(s):
+                   fl=True 
+                   sum2+=1
+                   l.append(question)
+
+        sc=sum2
+            #return HttpResponse("Thank You")
+            #return render(request,'polls/results.html',context={"fl":"fl" , "selected_choice":"selected_choice"})
+            #finish(request,sc)
+        #return render(request,'quiz1.html',context={"choices":choices})
+        return render(request,'results.html',context={"sc":sc})
+
+
+       
+

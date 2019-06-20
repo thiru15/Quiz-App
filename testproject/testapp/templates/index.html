@@ -1,125 +1,33 @@
-{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Base</title>
 
-{% block body_block %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<body>
-<nav class="navbar navbar-default navbar-static-top-primary" style="color:blue">
-  <div class="container">
-    <ul class="nav navbar-nav">
-      <li><a class="navbar-brand" href="
-      C:\Users\user\Desktop\django2\testproject\testapp\templates\index.html">DJANGO</a></li>
-      <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
-      <li><a class="navbar-link" href="{% url 'testapp:register' %}">Register</a></li>
-      {# Some logic on what to display for last item#}
-      {% if user.is_authenticated %}
-        <li><a href="{% url 'testapp:user_logout' %}">Logout</a></li>
-      {% else %}
-        <li><a class="navbar-link" href="{% url 'testapp:user_login' %}">Login</a></li>
-      {% endif %}
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+  <body>
+      <nav class="navbar navbar-dark bg-primary">
+      <div class="container">
+        <ul class="nav navbar-nav">
+{# Django Home Link / Admin Link / Register Link#}
+          <li><a class="navbar-brand" href="
+          C:\Users\user\Desktop\django2\testproject\testapp\templates\index.html" style="color: white">DJANGO</a></li>
+          <li><a class="navbar-link" href="{% url 'admin:index' %}" style="color: white;">Admin</a></li>
+          <li><a class="navbar-link" href="{% url 'testapp:register' %}" style="color: white;">Register</a></li>
+          {# Some logic on what to display for last item#}
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'testapp:user_logout' %}" style="color: white;">Logout</a></li>
+          {% else %}
+            <li><a class="navbar-link" href="{% url 'testapp:user_login' %}" style="color: white;">Login</a></li>
+          {% endif %}
 </ul>
-  </div>
-</nav>
-
-    {% if user.is_authenticated %}
-
-{% load static %}
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-<div style="margin-top: 50px;">
-<style>
-#demo {
-text-align: right;
-font-size: 20px;
-padding-left:"60px";
-background-color:#f2f2f2
-
-}
-body{
-  font-size:22px;
-}
-</style>
-<body>
-<p id="demo"></p>
-<script>
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
-
-today = mm + ' ' + dd+', ' + yyyy;
-document.write(today);
-var deadline = new Date(today+" 19:58:15").getTime();
-var x = setInterval(function() {
-var now = new Date().getTime();
-var t = deadline - now;
-var days = Math.floor(t / (1000 * 60 * 60 * 24));
-var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
-var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
-var seconds = Math.floor((t % (1000 * 60)) / 1000);
-document.getElementById("demo").innerHTML = days + "d "
-+ hours + "h " + minutes + "m " + seconds + "s ";
-if (t < 0) {
-    clearInterval(x);
-    document.getElementById("demo").innerHTML="EXPIRED";
-    flag=1
-    window.location.replace("{% url 'testapp:finish' user.id %}");
-}
-}, 1000);
-</script>
-
-
-
-<ol>
-{% for question in latest_question_list %}
-<link rel="stylesheet" type="text/css" href="{% static 'testapp/style.css' %}">
-<li>{{ question.question_text }}</li>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-<form action="{% url 'testapp:vote' question.id %}" method="post">
-{% csrf_token %}
-{% for choice in question.choice_set.all %}
-
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-    {{ fl }}
-{% endfor %}
-</<div>
-
-<p>you can answer only once<p>
-<input type="submit" value="Answer" class="btn btn-success">
-</form>
-
-{% endfor %}
-
-<h3>Check whether you have attended all the questions and then finish the test</h3>
-
-<button type="button" class="btn btn-primary"><a href="{% url 'testapp:finish' user.id %}" style="color:white">Finish</a></button>
-</ol>
-
-</div>
-
-
-{% else %}
-        <h2>Register or Login if you'd like to</h2>
-
-        <h3>LeaderBoard</h3>
-
-        {% for pro in Profile.objects.all %}
-        <p> {{ pro.user }} has scored {{ pro.scores }}
-          {% endfor %}
-
-
-
-
-
-
-
-
-
-    {% endif %}
-  </div>
-</div>
-{% endblock %}
+      </div>
+    </nav>
+    <div class="container">
+    {% block body_block %}
+    {% endblock %}
+    </div>
+  </body>
+</html>
