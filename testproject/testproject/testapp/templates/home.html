@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>design</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="col">
+            Django
+        </div>
+        <div class="col-1">
+            <a to="/homepage" class="navbar-brand" href="{% url 'admin:index'  %}">
+                Admin
+            </a>
+        </div>
+
+        <div class="col-1">
+            <a to="/topics" class="navbar-brand" href="{% url 'testapp:document'  %}">
+             Notes
+            </a>
+        </div>
+
+            <div class="col-1">
+                 <a to="/login" class="navbar-brand" href="{% url 'testapp:user_logout'  %}">
+                      Logout
+                  </a>
+
+    </nav>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="container">
+                <h1>Welcome {{ user.username }}</h1>
+                <h2>your scores {{ user.scores }}</h2>
+                <br>
+                <div class="row">
+
+                    <button type="submit" class="btn quiz-button col">
+                        <a class="button-text" href="{% url 'testapp:quiz2' %}">
+                            Aptitude Quiz
+                            <img class="quiz-icons" src="https://image.flaticon.com/icons/svg/478/478540.svg">
+                        </a>
+                    </button>
+
+                    <button type="submit" class="btn quiz-button col">
+                        <a class="button-text" href="{% url 'testapp:quiz1' %}">
+                            Verbal Quiz
+                            <img class="quiz-icons" src="http://chittagongit.com/download/119957">
+                        </a>
+                    </button>
+                </div>
+                <br>
+                <div class="row">
+                    <button type="submit" class="btn quiz-button col">
+                        <a class="button-text" to="/reasoning">
+                            Reasoning Quiz
+                            <img class="quiz-icons" src="https://image.flaticon.com/icons/svg/470/470274.svg">
+                        </a>
+                    </button>
+
+                    <button type="submit" class="btn quiz-button col">
+                        <a class="button-text" to="/dbms">
+                            DBMS Quiz
+                            <img class="quiz-icons" src="https://image.flaticon.com/icons/svg/149/149205.svg">
+                        </a>
+                    </button>
+                </div>
+                <br>
+                <h2>After completing the all the quizzes<br><a href="{% url 'testapp:finish' user.id %}"> click here to
+                        get your full score</a></h2>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+</body>
+
+</html>
+
+<style>
+    body {
+        background-color: rgb(142, 187, 247);
+    }
+
+    .navbar {
+        color: white;
+    }
+
+    .navbar .col {
+        margin: auto 10px;
+        letter-spacing: 10px;
+        font-size: 25px;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    }
+
+
+    h1 {
+        color: white;
+        font-size: 60px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    h2 {
+        color: white;
+        font-size: 30px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .quiz-button {
+        width: 100%;
+        height: 20vh;
+        margin: 20px;
+        background-color: rgb(247, 251, 255);
+        font-size: 30px;
+    }
+
+    .quiz-icons {
+        height: 80px;
+        width: 80px;
+        margin: 15px;
+    }
+
+    .button-text {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+    }
+
+    a {
+        color: white;
+    }
+
+    a:hover {
+        color: white;
+    }
+</style>

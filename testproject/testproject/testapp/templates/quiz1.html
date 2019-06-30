@@ -1,0 +1,86 @@
+{% extends "index.html" %}
+{% block body_block %}
+
+{% if user.is_authenticated %}
+
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+<div style="margin-top: 50px;">
+<style>
+#demo {
+text-align: right;
+font-size: 20px;
+padding-left:"60px";
+background-color:#f2f2f2
+
+}
+body{
+  font-size:22px;
+}
+</style>
+<body>
+<p id="demo"></p>
+<script>
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = mm + ' ' + dd+', ' + yyyy;
+document.write(today);
+var deadline = new Date(today+" 23:58:15").getTime();
+var x = setInterval(function() {
+var now = new Date().getTime();
+var t = deadline - now;
+var days = Math.floor(t / (1000 * 60 * 60 * 24));
+var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
+var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+var seconds = Math.floor((t % (1000 * 60)) / 1000);
+document.getElementById("demo").innerHTML = days + "d "
++ hours + "h " + minutes + "m " + seconds + "s ";
+if (t < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML="EXPIRED";
+    flag=1
+    window.location.replace("{% url 'testapp:finish' user.id %}");
+}
+}, 1000);
+</script>
+
+
+
+<ol>
+{% for question in latest_question_list %}
+ 
+<li>{{ question.question_text }}</li>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'testapp:vote1' question.id %}" method="post">
+{% csrf_token %}
+
+{% for choice in question.choice_set.all %}
+
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+    {{ fl }}
+{% endfor %} 
+ <div>
+
+<p>you can answer only once<p>
+<input type="submit" value="Answer" class="btn btn-success">
+</form>
+
+{% endfor %}
+
+<h3>Check whether you have attended all the questions and then finish the test</h3>
+
+<button type="button" class="btn btn-primary"><a href="{% url 'testapp:finish1' user.id %}" style="color:white">Finish</a></button>
+</ol>
+
+</div>
+{% endif %}
+{% endblock %}
+
